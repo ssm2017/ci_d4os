@@ -14,13 +14,13 @@ require APPPATH.'/libraries/REST_Controller.php';
 
 class D4OS_IO_rest_Regions extends REST_Controller {
 
-	function __construct() {
-		parent::__construct();
-	}
+  function __construct() {
+    parent::__construct();
+  }
 
-	function ping_get() {
-		$this->response(array('status'=>'success'), 200);
-	}
+  function ping_get() {
+    $this->response(array('status'=>'success'), 200);
+  }
 
   function ping_post() {
     $this->response(array('status'=>'success'), 200);
@@ -46,35 +46,35 @@ class D4OS_IO_rest_Regions extends REST_Controller {
     $this->load->model('d4os_io_rest_regions_model');
     $regions = $this->d4os_io_rest_regions_model->get_regions_owners();
 
-		if ($this->d4os_io_rest_regions_model->response->success) {
-			$this->response($regions, 200);
-		}
-		else {
-			$this->response(array('error' => $this->d4os_io_rest_regions_model->response->messages), 404);
-		}
+    if ($this->d4os_io_rest_regions_model->response->success) {
+      $this->response($regions, 200);
+    }
+    else {
+      $this->response(array('error' => $this->d4os_io_rest_regions_model->response->messages), 404);
+    }
   }
 
   function get_regions_count_get() {
     $this->load->model('d4os_io_rest_regions_model');
     $count = $this->d4os_io_rest_regions_model->get_regions_count();
 
-		if ($this->d4os_io_rest_regions_model->response->success) {
-			$this->response($count, 200);
-		}
-		else {
-			$this->response(array('error' => $this->d4os_io_rest_regions_model->response->messages), 404);
-		}
+    if ($this->d4os_io_rest_regions_model->response->success) {
+      $this->response($count, 200);
+    }
+    else {
+      $this->response(array('error' => $this->d4os_io_rest_regions_model->response->messages), 404);
+    }
   }
 
   function get_regions_names_get() {
     $this->load->model('d4os_io_rest_regions_model');
     $regions = $this->d4os_io_rest_regions_model->get_regions_names();
 
-		if ($this->d4os_io_rest_regions_model->response->success) {
-			$this->response($regions, 200);
-		}
-		else {
-			$this->response(array('error' => $this->d4os_io_rest_regions_model->response->messages), 404);
-		}
+    if ($this->d4os_io_rest_regions_model->response->success) {
+      $this->response($regions, 200);
+    }
+    else {
+      $this->response(array('error' => $this->d4os_io_rest_regions_model->response->messages), 404);
+    }
   }
 }

@@ -14,13 +14,13 @@ require APPPATH.'/libraries/REST_Controller.php';
 
 class D4OS_IO_rest_Groups extends REST_Controller {
 
-	function __construct() {
-		parent::__construct();
-	}
+  function __construct() {
+    parent::__construct();
+  }
 
-	function ping_get() {
-		$this->response(array('status'=>'success'), 200);
-	}
+  function ping_get() {
+    $this->response(array('status'=>'success'), 200);
+  }
 
   function ping_post() {
     $this->response(array('status'=>'success'), 200);

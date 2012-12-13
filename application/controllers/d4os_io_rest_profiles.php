@@ -14,12 +14,12 @@ require APPPATH.'/libraries/REST_Controller.php';
 
 class D4OS_IO_rest_Profiles extends REST_Controller {
 
-	function __construct() {
-		parent::__construct();
-	}
-	function ping_get() {
-		$this->response(array('status'=>'success'), 200);
-	}
+  function __construct() {
+    parent::__construct();
+  }
+  function ping_get() {
+    $this->response(array('status'=>'success'), 200);
+  }
   function ping_post() {
     $this->response(array('status'=>'success'), 200);
   }
@@ -66,12 +66,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $profiles = $this->d4os_io_rest_profiles_model->get_profile($where);
 
-		if ($profiles['success']) {
-			$this->response($profiles['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $profiles['errorMessage']), 404);
-		}
+    if ($profiles['success']) {
+      $this->response($profiles['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $profiles['errorMessage']), 404);
+    }
   }
 
   function save_profile_post() {
@@ -81,16 +81,16 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     }
     $data = json_decode($this->post('data'));
 
-		$this->load->model('d4os_io_rest_profiles_model');
-		$updated = $this->d4os_io_rest_profiles_model->save_profile((array)$data);
+    $this->load->model('d4os_io_rest_profiles_model');
+    $updated = $this->d4os_io_rest_profiles_model->save_profile((array)$data);
 
     // return the answer
-		if ($updated['success'] === TRUE) {
-			$this->response($updated['errorMessage'], 200);
-		}
-		else {
-			$this->response($updated['errorMessage'], 400);
-		}
+    if ($updated['success'] === TRUE) {
+      $this->response($updated['errorMessage'], 200);
+    }
+    else {
+      $this->response($updated['errorMessage'], 400);
+    }
   }
 
   function delete_profile_get() {
@@ -118,12 +118,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $data = $this->d4os_io_rest_profiles_model->avatarclassifiedsrequest($where);
 
-		if ($data['success']) {
-			$this->response($data['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $data['errorMessage']), 404);
-		}
+    if ($data['success']) {
+      $this->response($data['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $data['errorMessage']), 404);
+    }
   }
 
   function classified_update_post() {
@@ -133,16 +133,16 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     }
     $data = json_decode($this->post('data'));
 
-		$this->load->model('d4os_io_rest_profiles_model');
-		$updated = $this->d4os_io_rest_profiles_model->classified_update((array)$data);
+    $this->load->model('d4os_io_rest_profiles_model');
+    $updated = $this->d4os_io_rest_profiles_model->classified_update((array)$data);
 
     // return the answer
-		if ($updated['success'] === TRUE) {
-			$this->response($updated['errorMessage'], 200);
-		}
-		else {
-			$this->response($updated['errorMessage'], 400);
-		}
+    if ($updated['success'] === TRUE) {
+      $this->response($updated['errorMessage'], 200);
+    }
+    else {
+      $this->response($updated['errorMessage'], 400);
+    }
   }
 
   function classified_delete_get() {
@@ -165,12 +165,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $data = $this->d4os_io_rest_profiles_model->avatarpicksrequest($where);
 
-		if ($data['success']) {
-			$this->response($data['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $data['errorMessage']), 404);
-		}
+    if ($data['success']) {
+      $this->response($data['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $data['errorMessage']), 404);
+    }
   }
 
   function pickinforequest_get() {
@@ -178,12 +178,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $data = $this->d4os_io_rest_profiles_model->pickinforequest($where);
 
-		if ($data['success']) {
-			$this->response($data['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $data['errorMessage']), 404);
-		}
+    if ($data['success']) {
+      $this->response($data['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $data['errorMessage']), 404);
+    }
   }
 
   function picks_update_post() {
@@ -193,16 +193,16 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     }
     $data = json_decode($this->post('data'));
 
-		$this->load->model('d4os_io_rest_profiles_model');
-		$updated = $this->d4os_io_rest_profiles_model->picks_update((array)$data);
+    $this->load->model('d4os_io_rest_profiles_model');
+    $updated = $this->d4os_io_rest_profiles_model->picks_update((array)$data);
 
     // return the answer
-		if ($updated['success'] === TRUE) {
-			$this->response($updated['errorMessage'], 200);
-		}
-		else {
-			$this->response($updated['errorMessage'], 400);
-		}
+    if ($updated['success'] === TRUE) {
+      $this->response($updated['errorMessage'], 200);
+    }
+    else {
+      $this->response($updated['errorMessage'], 400);
+    }
   }
 
   function picks_delete_get() {
@@ -225,12 +225,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $data = $this->d4os_io_rest_profiles_model->avatarnotesrequest($where);
 
-		if ($data['success']) {
-			$this->response($data['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $data['errorMessage']), 404);
-		}
+    if ($data['success']) {
+      $this->response($data['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $data['errorMessage']), 404);
+    }
   }
 
   function avatar_notes_update_post() {
@@ -240,16 +240,16 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     }
     $data = json_decode($this->post('data'));
 
-		$this->load->model('d4os_io_rest_profiles_model');
-		$updated = $this->d4os_io_rest_profiles_model->avatar_notes_update((array)$data);
+    $this->load->model('d4os_io_rest_profiles_model');
+    $updated = $this->d4os_io_rest_profiles_model->avatar_notes_update((array)$data);
 
     // return the answer
-		if ($updated['success'] === TRUE) {
-			$this->response($updated['errorMessage'], 200);
-		}
-		else {
-			$this->response($updated['errorMessage'], 400);
-		}
+    if ($updated['success'] === TRUE) {
+      $this->response($updated['errorMessage'], 200);
+    }
+    else {
+      $this->response($updated['errorMessage'], 400);
+    }
   }
 
   function avatar_properties_request_get() {
@@ -257,12 +257,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $data = $this->d4os_io_rest_profiles_model->avatar_properties_request($where);
 
-		if ($data['success']) {
-			$this->response($data['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $data['errorMessage']), 404);
-		}
+    if ($data['success']) {
+      $this->response($data['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $data['errorMessage']), 404);
+    }
   }
 
   function avatar_properties_update_post() {
@@ -272,16 +272,16 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     }
     $data = json_decode($this->post('data'));
 
-		$this->load->model('d4os_io_rest_profiles_model');
-		$updated = $this->d4os_io_rest_profiles_model->avatar_properties_update((array)$data);
+    $this->load->model('d4os_io_rest_profiles_model');
+    $updated = $this->d4os_io_rest_profiles_model->avatar_properties_update((array)$data);
 
     // return the answer
-		if ($updated['success'] === TRUE) {
-			$this->response($updated['errorMessage'], 200);
-		}
-		else {
-			$this->response($updated['errorMessage'], 400);
-		}
+    if ($updated['success'] === TRUE) {
+      $this->response($updated['errorMessage'], 200);
+    }
+    else {
+      $this->response($updated['errorMessage'], 400);
+    }
   }
 
   function avatar_interests_request_get() {
@@ -289,12 +289,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $data = $this->d4os_io_rest_profiles_model->avatar_interests_request($where);
 
-		if ($data['success']) {
-			$this->response($data['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $data['errorMessage']), 404);
-		}
+    if ($data['success']) {
+      $this->response($data['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $data['errorMessage']), 404);
+    }
   }
 
   function avatar_interests_update_post() {
@@ -304,16 +304,16 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     }
     $data = json_decode($this->post('data'));
 
-		$this->load->model('d4os_io_rest_profiles_model');
-		$updated = $this->d4os_io_rest_profiles_model->avatar_interests_update((array)$data);
+    $this->load->model('d4os_io_rest_profiles_model');
+    $updated = $this->d4os_io_rest_profiles_model->avatar_interests_update((array)$data);
 
     // return the answer
-		if ($updated['success'] === TRUE) {
-			$this->response($updated['errorMessage'], 200);
-		}
-		else {
-			$this->response($updated['errorMessage'], 400);
-		}
+    if ($updated['success'] === TRUE) {
+      $this->response($updated['errorMessage'], 200);
+    }
+    else {
+      $this->response($updated['errorMessage'], 400);
+    }
   }
 
   function user_preferences_request_get() {
@@ -321,12 +321,12 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     $this->load->model('d4os_io_rest_profiles_model');
     $data = $this->d4os_io_rest_profiles_model->user_preferences_request($where);
 
-		if ($data['success']) {
-			$this->response($data['data'], 200);
-		}
-		else {
-			$this->response(array('error' => $data['errorMessage']), 404);
-		}
+    if ($data['success']) {
+      $this->response($data['data'], 200);
+    }
+    else {
+      $this->response(array('error' => $data['errorMessage']), 404);
+    }
   }
 
   function user_preferences_update_post() {
@@ -336,15 +336,15 @@ class D4OS_IO_rest_Profiles extends REST_Controller {
     }
     $data = json_decode($this->post('data'));
 
-		$this->load->model('d4os_io_rest_profiles_model');
-		$updated = $this->d4os_io_rest_profiles_model->user_preferences_update((array)$data);
+    $this->load->model('d4os_io_rest_profiles_model');
+    $updated = $this->d4os_io_rest_profiles_model->user_preferences_update((array)$data);
 
     // return the answer
-		if ($updated['success'] === TRUE) {
-			$this->response($updated['errorMessage'], 200);
-		}
-		else {
-			$this->response($updated['errorMessage'], 400);
-		}
+    if ($updated['success'] === TRUE) {
+      $this->response($updated['errorMessage'], 200);
+    }
+    else {
+      $this->response($updated['errorMessage'], 400);
+    }
   }
 }

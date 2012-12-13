@@ -14,15 +14,18 @@ require APPPATH.'/libraries/REST_Controller.php';
 
 class D4OS_IO_rest_Grid extends REST_Controller {
 
-	function __construct() {
-		parent::__construct();
-	}
-	function ping_get() {
-		$this->response(array('status'=>'success'), 200);
-	}
+  function __construct() {
+    parent::__construct();
+  }
+
+  function ping_get() {
+    $this->response(array('status'=>'success'), 200);
+  }
+
   function ping_post() {
     $this->response(array('status'=>'success'), 200);
   }
+
   function get_grid_infos_get() {
     $this->load->model('d4os_io_rest_users_model');
     // online now

@@ -11,7 +11,7 @@
  * @author        	Phil Sturgeon
  * @license         http://philsturgeon.co.uk/code/dbad-license
  * @link			https://github.com/philsturgeon/codeigniter-restserver
- * @version 		2.6.0
+ * @version 		2.6.1
  */
 abstract class REST_Controller extends CI_Controller
 {
@@ -59,6 +59,13 @@ abstract class REST_Controller extends CI_Controller
 	 * @var object
 	 */
 	protected $rest = NULL;
+
+	/**
+	 * Object to store data about the client sending the request
+	 *
+	 * @var object
+	 */
+	 protected $client = NULL;	 
 
 	/**
 	 * The arguments for the GET request method
@@ -145,8 +152,13 @@ abstract class REST_Controller extends CI_Controller
 		// Lets grab the config and get ready to party
 		$this->load->config('rest');
 
-		// How is this request being made? POST, DELETE, GET, PUT?
+		// let's learn about the request
 		$this->request = new stdClass();
+		
+		// Is it over SSL?
+		$this->request->ssl = $this->_detect_ssl();
+		
+		// How is this request being made? POST, DELETE, GET, PUT?
 		$this->request->method = $this->_detect_method();
 
 		// Create argument container, if nonexistent
@@ -250,6 +262,12 @@ abstract class REST_Controller extends CI_Controller
 	 */
 	public function _remap($object_called, $arguments)
 	{
+		// Should we answer if not over SSL?
+		if (config_item('force_https') AND !$this->_detect_ssl())
+		{
+			$this->response(array('status' => false, 'error' => 'Unsupported protocol'), 403);	
+		}
+		
 		$pattern = '/^(.*)\.('.implode('|', array_keys($this->_supported_formats)).')$/';
 		if (preg_match($pattern, $object_called, $matches))
 		{
@@ -262,7 +280,7 @@ abstract class REST_Controller extends CI_Controller
 		$log_method = !(isset($this->methods[$controller_method]['log']) AND $this->methods[$controller_method]['log'] == FALSE);
 
 		// Use keys for this method?
-		$use_key = !(isset($this->methods[$controller_method]['key']) AND $this->methods[$controller_method]['key'] == FALSE);
+		$use_key = ! (isset($this->methods[$controller_method]['key']) AND $this->methods[$controller_method]['key'] == FALSE);
 
 		// Get that useless shitty key out of here
 		if (config_item('rest_enable_keys') AND $use_key AND $this->_allow === FALSE)
@@ -407,6 +425,17 @@ abstract class REST_Controller extends CI_Controller
 		exit($output);
 	}
 
+	/*
+	 * Detect SSL use
+	 *
+	 * Detect whether SSL is being used or not
+	 */
+	protected function _detect_ssl()
+	{
+    		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on");
+	}
+	
+	
 	/*
 	 * Detect input format
 	 *
@@ -569,18 +598,50 @@ abstract class REST_Controller extends CI_Controller
 		// Find the key from server or arguments
 		if (($key = isset($this->_args[$api_key_variable]) ? $this->_args[$api_key_variable] : $this->input->server($key_name)))
 		{
-			if ( ! ($row = $this->rest->db->where('key', $key)->get(config_item('rest_keys_table'))->row()))
+			if ( ! ($this->client = $this->rest->db->where(config_item('rest_key_column'), $key)->get(config_item('rest_keys_table'))->row()))
 			{
 				return FALSE;
 			}
 
-			$this->rest->key = $row->key;
+			$this->rest->key = $this->client->{config_item('rest_key_column')};
 
 			isset($row->user_id) AND $this->rest->user_id = $row->user_id;
 			isset($row->level) AND $this->rest->level = $row->level;
 			isset($row->ignore_limits) AND $this->rest->ignore_limits = $row->ignore_limits;
+			
+			/*
+			 * If "is private key" is enabled, compare the ip address with the list
+			 * of valid ip addresses stored in the database.
+			 */
+			if(!empty($row->is_private_key))
+			{
+				// Check for a list of valid ip addresses
+				if(isset($row->ip_addresses))
+				{
+					// multiple ip addresses must be separated using a comma, explode and loop
+					$list_ip_addresses = explode(",", $row->ip_addresses);
+					$found_address = FALSE;
+					
+					foreach($list_ip_addresses as $ip_address)
+					{
+						if($this->input->ip_address() == trim($ip_address))
+						{
+							// there is a match, set the the value to true and break out of the loop
+							$found_address = TRUE;
+							break;
+						}
+					}
+					
+					return $found_address;
+				}
+				else
+				{
+					// There should be at least one IP address for this private key.
+					return FALSE;
+				}
+			}
 
-			return TRUE;
+			return $this->client;
 		}
 
 		// No key has been sent

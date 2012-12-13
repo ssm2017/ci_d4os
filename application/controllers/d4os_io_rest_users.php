@@ -14,16 +14,16 @@ require APPPATH.'/libraries/REST_Controller.php';
 
 class D4OS_IO_rest_Users extends REST_Controller {
 
-	function __construct() {
-		parent::__construct();
-	}
-	function ping_get() {
-		$this->response(array('status'=>'success'), 200);
-	}
+  function __construct() {
+    parent::__construct();
+  }
+  function ping_get() {
+    $this->response(array('status'=>'success'), 200);
+  }
   function ping_post() {
     $this->response(array('status'=>'success'), 200);
   }
-	function load_user_get() {
+  function load_user_get() {
     $params = $this->get();
 
     if (!count($params)) {
@@ -35,15 +35,15 @@ class D4OS_IO_rest_Users extends REST_Controller {
     $users = $this->d4os_io_rest_users_model->load_user($params);
 
     // return the answer
-		if (is_array($users) && $users['success'] === TRUE) {
-			$this->response($users, 200);
-		}
-		else {
-			$this->response($users, 404);
-		}
-	}
+    if (is_array($users) && $users['success'] === TRUE) {
+      $this->response($users, 200);
+    }
+    else {
+      $this->response($users, 404);
+    }
+  }
 
-	function save_user_post() {
+  function save_user_post() {
 
     // get values
     if (!$this->post('data')) {
@@ -55,35 +55,35 @@ class D4OS_IO_rest_Users extends REST_Controller {
     }
 
     // save user
-		$this->load->model('d4os_io_rest_users_model');
-		$save_user = $this->d4os_io_rest_users_model->save_user($data);
+    $this->load->model('d4os_io_rest_users_model');
+    $save_user = $this->d4os_io_rest_users_model->save_user($data);
 
     // return the answer
-		if (is_array($save_user) && $save_user['success'] === TRUE) {
-			$this->response($save_user, 200);
-		}
-		else {
-			$this->response($save_user, 400);
-		}
-	}
+    if (is_array($save_user) && $save_user['success'] === TRUE) {
+      $this->response($save_user, 200);
+    }
+    else {
+      $this->response($save_user, 400);
+    }
+  }
 
-	function delete_user_get() {
-		if(!$this->get('uuid')) {
-			$this->response(NULL, 400);
-		}
-		$this->load->model('d4os_io_rest_users_model');
-		$this->d4os_io_rest_users_model->delete_user($this->get('uuid'));
-		$response = array(
-			'messages' => $this->d4os_io_rest_users_model->response->messages
-		);
-		if ($this->d4os_io_rest_users_model->response->success) {
-			$response['status'] = 'success';
-		}
-		else {
-			$response['status'] = 'failed';
-		}
-		$this->response($response, 200);
-	}
+  function delete_user_get() {
+    if(!$this->get('uuid')) {
+      $this->response(NULL, 400);
+    }
+    $this->load->model('d4os_io_rest_users_model');
+    $this->d4os_io_rest_users_model->delete_user($this->get('uuid'));
+    $response = array(
+      'messages' => $this->d4os_io_rest_users_model->response->messages
+    );
+    if ($this->d4os_io_rest_users_model->response->success) {
+      $response['status'] = 'success';
+    }
+    else {
+      $response['status'] = 'failed';
+    }
+    $this->response($response, 200);
+  }
 
   function get_online_users_count_get() {
     $online = $this->get('online');
@@ -91,12 +91,12 @@ class D4OS_IO_rest_Users extends REST_Controller {
     $this->load->model('d4os_io_rest_users_model');
     $count = $this->d4os_io_rest_users_model->get_online_users_count($online, $range);
 
-		if ($this->d4os_io_rest_users_model->response->success) {
-			$this->response($count, 200);
-		}
-		else {
-			$this->response(array('error' => $this->d4os_io_rest_users_model->response->messages), 404);
-		}
+    if ($this->d4os_io_rest_users_model->response->success) {
+      $this->response($count, 200);
+    }
+    else {
+      $this->response(array('error' => $this->d4os_io_rest_users_model->response->messages), 404);
+    }
   }
 
   function get_online_users_list_get() {
@@ -110,12 +110,12 @@ class D4OS_IO_rest_Users extends REST_Controller {
     $list = $this->d4os_io_rest_users_model->get_online_users_list($online, $range, $offset, $limit, $order_by, $order_way);
     $list['messages'] = $this->d4os_io_rest_users_model->response->messages;
 
-		if ($this->d4os_io_rest_users_model->response->success) {
-			$this->response($list, 200);
-		}
-		else {
-			$this->response(array('error' => $this->d4os_io_rest_users_model->response->messages), 404);
-		}
+    if ($this->d4os_io_rest_users_model->response->success) {
+      $this->response($list, 200);
+    }
+    else {
+      $this->response(array('error' => $this->d4os_io_rest_users_model->response->messages), 404);
+    }
   }
   function test_get() {
     $this->db->select('*');
