@@ -440,23 +440,39 @@ class D4OS_IO_rest_Users_Model extends CI_Model {
 		$this->response->success = true;
 	}
 
-  function get_online_users_count($online = FALSE, $range = 0) {
+  function get_online_users_count($range = 0) {
     // day = 86400 / month = 2419200 / year = 29030400
-    $this->db->from('GridUser');
     if (!$range || !is_numeric($range)) {
-      $this->db->where('Online', 'True');
+      // Count the TRUE number of users online.  GridUser.Online is not reliable.
+      $this->db->from('Presence');
+      // Don't count ghosts.  Sometimes OpenSim gets confused and leaves people online when they are not, but at least sets the region they are in to the NULL key.
+      $this->db->where('RegionID <>', '00000000-0000-0000-0000-000000000000');
     }
     else {
-      if ($online) {
-        $this->db->where('Online', 'True');
-      }
-      $this->db->where('Login >', time() - $range);
+      $this->db->from('GridUser');
+      $this->db->where('Login >', "UNIX_TIMESTAMP(FROM_UNIXTIME(UNIX_TIMESTAMP(now()) - $range))", FALSE);
     }
     $count = $this->db->count_all_results();
     $this->response->success = TRUE;
     $this->response->data = $count;
-    //return $this->db->last_query();
+//    return $this->db->last_query();
     return $count;
+  }
+
+  function get_online_hypergridders_count() {
+    // Count the TRUE number of users online.  GridUser.Online is not reliable.
+    $this->db->from('Presence');
+    // Don't count ghosts.  Sometimes OpenSim gets confused and leaves people online when they are not, but at least sets the region they are in to the NULL key.
+    $this->db->where('RegionID <>', UUID_ZERO);
+    $result = $this->db->count_all_results();
+
+    $this->db->from('Presence');
+    $this->db->from('UserAccounts');
+    // Yes, we are keeping the previous WHERE clause, and adding a new one.
+    $this->db->where('Presence.RegionID <>', UUID_ZERO);
+    $this->db->where('Presence.UserID = UserAccounts.PrincipalID');
+    $result -= $this->db->count_all_results();
+    return $result;
   }
 
   function get_users_count() {

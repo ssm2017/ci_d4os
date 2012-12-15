@@ -86,10 +86,9 @@ class D4OS_IO_rest_Users extends REST_Controller {
   }
 
   function get_online_users_count_get() {
-    $online = $this->get('online');
     $range = $this->get('range');
     $this->load->model('d4os_io_rest_users_model');
-    $count = $this->d4os_io_rest_users_model->get_online_users_count($online, $range);
+    $count = $this->d4os_io_rest_users_model->get_online_users_count($range);
 
     if ($this->d4os_io_rest_users_model->response->success) {
       $this->response($count, 200);

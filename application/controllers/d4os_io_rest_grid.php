@@ -28,11 +28,10 @@ class D4OS_IO_rest_Grid extends REST_Controller {
 
   function get_grid_infos_get() {
     $this->load->model('d4os_io_rest_users_model');
-    // online now
+
     $online_now = $this->d4os_io_rest_users_model->get_online_users_count();
-    // online last month
-    $online_last_month = $this->d4os_io_rest_users_model->get_online_users_count(FALSE, 2419200);
-    // users count
+    $online_hypergridders = $this->d4os_io_rest_users_model->get_online_hypergridders_count();
+    $online_last_30_days = $this->d4os_io_rest_users_model->get_online_users_count(2419200);
     $users_count = $this->d4os_io_rest_users_model->get_users_count();
     // regions count
     $this->load->model('d4os_io_rest_regions_model');
@@ -40,7 +39,8 @@ class D4OS_IO_rest_Grid extends REST_Controller {
 
     $values = array(
       'online_now' => $online_now,
-      'online_last_month' => $online_last_month,
+      'online_hypergridders' => $online_hypergridders,
+      'online_last_30_days' => $online_last_30_days,
       'users_count' => $users_count,
       'regions_count' => $regions_count
     );
