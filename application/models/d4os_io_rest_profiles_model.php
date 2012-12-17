@@ -499,8 +499,14 @@ class D4OS_IO_rest_Profiles_Model extends CI_Model {
     $values['profileFirstText']   = isset($params['FirstLifeAboutText']) ?  $params['FirstLifeAboutText'] : $params['profileFirstText'];
     $values['profilePartner']     = isset($params['Partner']) ?             $params['Partner'] :            $params['profilePartner'];
 
+    foreach($values as $key => $value) {
+      if (is_null($value)) {
+        unset($values[$key]);
+      }
+    }
+
     // check if the user has a profile
-    $profile = $this->profiles_db->get_where('userprofile', array('useruuid' => $params['useruuid']))->num_rows() > 0;
+    $profile = $this->profiles_db->get_where('userprofile', array('useruuid' => $values['useruuid']))->num_rows() > 0;
 
     if (!$profile) {
       $this->profiles_db->insert('userprofile', $values);
