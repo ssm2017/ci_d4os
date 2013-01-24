@@ -324,6 +324,26 @@ class D4OS_IO_rest_Users_Model extends CI_Model {
     }
 	}
 
+  function set_user_level($params) {
+    $this->db->where_in('PrincipalID', $params->uuids);
+    $this->db->update('UserAccounts', array('UserLevel' => $params->user_level));
+    $return = $this->db->_error_number()==0;
+    if ($return) {
+      $this->response->messages[] = 'User level updated';
+      return array(
+        'success' => TRUE,
+        'messages' => $this->response->messages
+      );
+    }
+    else {
+      $this->response->messages[] = $return;
+      return array(
+        'success' => FALSE,
+        'messages' => $this->response->messages
+      );
+    }
+  }
+
   function get_useraccount_values($grid_user) {
     $values = array();
 

@@ -67,6 +67,31 @@ class D4OS_IO_rest_Users extends REST_Controller {
     }
   }
 
+  function set_user_level_post() {
+
+    // get values
+    if (!$this->post('data')) {
+      $this->response('Missing values', 400);
+    }
+
+    $data = json_decode($this->post('data'));
+    if (!is_array($data->uuids) || !isset($data->user_level)) {
+      $this->response('Missing values', 400);
+    }
+
+    // set level
+    $this->load->model('d4os_io_rest_users_model');
+    $set_level = $this->d4os_io_rest_users_model->set_user_level($data);
+
+    // return the answer
+    if (is_array($set_level) && $set_level['success'] === TRUE) {
+      $this->response($set_level, 200);
+    }
+    else {
+      $this->response($set_level, 400);
+    }
+  }
+
   function delete_user_get() {
     if(!$this->get('uuid')) {
       $this->response(NULL, 400);
